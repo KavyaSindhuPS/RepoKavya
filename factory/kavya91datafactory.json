@@ -1,0 +1,9 @@
+{
+	"name": "kavya91datafactory",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8b8a90ac-3226-4d63-aba6-60bfc4db6e3b",
+		"tenantId": "e2d2934d-c300-4e48-a2cb-af769e9eb6b2"
+	}
+}

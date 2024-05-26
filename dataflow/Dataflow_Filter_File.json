@@ -1,0 +1,93 @@
+{
+	"name": "Dataflow_Filter_File",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "InputFilterDelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "empsrc"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "OutputFilterDelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1",
+					"rejectedDataLinkedService": {
+						"referenceName": "Linkedservice_AzureBlobStorage",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "sort1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "window1"
+				},
+				{
+					"name": "alterRow1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id as short,",
+				"          ename as string,",
+				"          gender as string,",
+				"          location as string,",
+				"          deptno as short,",
+				"          salary as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('hash', 1)) ~> empsrc",
+				"empsrc sort(asc(id, true),",
+				"     caseInsensitive: true) ~> sort1",
+				"sort1 derive(v_location = initCap(location)) ~> derivedColumn1",
+				"derivedColumn1 select(mapColumn(",
+				"          id,",
+				"          ename,",
+				"          Location = location,",
+				"          Gender = gender,",
+				"          v_location,",
+				"          salary,",
+				"          deptno",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 window(over(Gender),",
+				"     asc(id, true),",
+				"     salary = avg(salary)) ~> window1",
+				"window1 alterRow(deleteIf(Gender=='female'),",
+				"     insertIf(deptno==30)) ~> alterRow1",
+				"alterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['emp_tgt_sort_filter.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          id,",
+				"          ename,",
+				"          Location = v_location,",
+				"          Gender,",
+				"          salary",
+				"     ),",
+				"     partitionBy('hash', 1)) ~> sink1"
+			]
+		}
+	}
+}

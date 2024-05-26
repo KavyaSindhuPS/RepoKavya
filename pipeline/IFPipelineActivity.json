@@ -1,0 +1,144 @@
+{
+	"name": "IFPipelineActivity",
+	"properties": {
+		"activities": [
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@if(equals(1,1),pipeline().parameters.FalseParam,pipeline().parameters.TrueParam)",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Copy data2",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "BinarySource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true
+									},
+									"formatSettings": {
+										"type": "BinaryReadSettings"
+									}
+								},
+								"sink": {
+									"type": "BinarySink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "InputDataset",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Ifpipelinedataset",
+									"type": "DatasetReference",
+									"parameters": {
+										"OutputFolder": {
+											"value": "@pipeline().parameters.Output2",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "BinarySource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true
+									},
+									"formatSettings": {
+										"type": "BinaryReadSettings"
+									}
+								},
+								"sink": {
+									"type": "BinarySink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "InputDataset",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Ifpipelinedataset",
+									"type": "DatasetReference",
+									"parameters": {
+										"OutputFolder": {
+											"value": "@pipeline().parameters.Output1",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"TrueParam": {
+				"type": "string",
+				"defaultValue": "true"
+			},
+			"FalseParam": {
+				"type": "string",
+				"defaultValue": "false"
+			},
+			"Output1": {
+				"type": "string",
+				"defaultValue": "empOutput1"
+			},
+			"Output2": {
+				"type": "string",
+				"defaultValue": "empoutput2"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-05-17T17:13:14Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

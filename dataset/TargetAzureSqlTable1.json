@@ -1,0 +1,32 @@
+{
+	"name": "TargetAzureSqlTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "linkedserviceAzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "ename",
+				"type": "varchar"
+			},
+			{
+				"name": "sal",
+				"type": "bigint",
+				"precision": 19
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tgt_emp"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

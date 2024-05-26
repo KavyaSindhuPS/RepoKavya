@@ -1,0 +1,38 @@
+{
+	"name": "InputDataDeptSrc1Union",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Linkedservice_AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "dept_file_src.txt",
+				"folderPath": "Input",
+				"container": "kavya91container"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "deptno",
+				"type": "String"
+			},
+			{
+				"name": "dname",
+				"type": "String"
+			},
+			{
+				"name": "sal",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

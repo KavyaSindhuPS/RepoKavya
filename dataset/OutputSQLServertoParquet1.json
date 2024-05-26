@@ -1,0 +1,21 @@
+{
+	"name": "OutputSQLServertoParquet1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Linkedservice_AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "Output",
+				"container": "kavya91container"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

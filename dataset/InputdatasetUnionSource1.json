@@ -1,0 +1,36 @@
+{
+	"name": "InputdatasetUnionSource1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Linkedservice_AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "source_unioin1.xlsx",
+				"folderPath": "Input",
+				"container": "kavya91container"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "id",
+				"type": "String"
+			},
+			{
+				"name": "name",
+				"type": "String"
+			},
+			{
+				"name": "country",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
