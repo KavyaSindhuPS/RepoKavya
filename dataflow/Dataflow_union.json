@@ -86,18 +86,20 @@
 				"     validateSchema: false,",
 				"     format: 'delimited',",
 				"     container: 'kavya91container',",
-				"     folderPath: 'Output/dept20.csv',",
+				"     folderPath: 'Output',",
 				"     columnDelimiter: ',',",
 				"     escapeChar: '\\\\',",
 				"     quoteChar: '\\\"',",
 				"     columnNamesAsHeader: true,",
+				"     partitionFileNames:['dept20.csv'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     mapColumn(",
 				"          deptno,",
 				"          dname,",
 				"          sal",
-				"     )) ~> sink2",
+				"     ),",
+				"     partitionBy('hash', 1)) ~> sink2",
 				"split1@deptno30 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'delimited',",
@@ -107,8 +109,10 @@
 				"     escapeChar: '\\\\',",
 				"     quoteChar: '\\\"',",
 				"     columnNamesAsHeader: false,",
+				"     partitionFileNames:['dept30.csv'],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink3"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink3"
 			]
 		}
 	}
