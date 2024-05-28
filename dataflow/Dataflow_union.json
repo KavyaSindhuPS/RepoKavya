@@ -26,11 +26,32 @@
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
+				},
+				{
+					"linkedService": {
+						"referenceName": "Linkedservice_AzureBlobStorage",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sink2",
+					"rejectedDataLinkedService": {
+						"referenceName": "Linkedservice_AzureBlobStorage",
+						"type": "LinkedServiceReference"
+					}
+				},
+				{
+					"linkedService": {
+						"referenceName": "Linkedservice_AzureBlobStorage",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sink3"
 				}
 			],
 			"transformations": [
 				{
 					"name": "union1"
+				},
+				{
+					"name": "split1"
 				}
 			],
 			"scriptLines": [
@@ -51,12 +72,43 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source2",
 				"source1, source2 union(byName: false)~> union1",
-				"union1 sink(allowSchemaDrift: true,",
+				"union1 split(deptno=='10',",
+				"     deptno=='20',",
+				"     deptno=='30',",
+				"     disjoint: false) ~> split1@(dept10, dept20, deptno30)",
+				"split1@dept10 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     partitionFileNames:['Output_union'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> sink1"
+				"     partitionBy('hash', 1)) ~> sink1",
+				"split1@dept20 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'delimited',",
+				"     container: 'kavya91container',",
+				"     folderPath: 'Output/dept20.csv',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          deptno,",
+				"          dname,",
+				"          sal",
+				"     )) ~> sink2",
+				"split1@deptno30 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'delimited',",
+				"     container: 'kavya91container',",
+				"     folderPath: 'Output',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink3"
 			]
 		}
 	}
