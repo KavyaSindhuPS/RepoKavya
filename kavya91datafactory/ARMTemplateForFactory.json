@@ -1329,9 +1329,6 @@
 							"name": "select1"
 						},
 						{
-							"name": "window1"
-						},
-						{
 							"name": "alterRow1"
 						}
 					],
@@ -1362,10 +1359,7 @@
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> select1",
-						"select1 window(over(Gender),",
-						"     asc(id, true),",
-						"     salary = avg(salary)) ~> window1",
-						"window1 alterRow(deleteIf(Gender=='female'),",
+						"select1 alterRow(deleteIf(Gender=='female'),",
 						"     insertIf(deptno==30)) ~> alterRow1",
 						"alterRow1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
