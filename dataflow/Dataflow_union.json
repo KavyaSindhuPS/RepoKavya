@@ -87,6 +87,7 @@
 				"     format: 'delimited',",
 				"     container: 'kavya91container',",
 				"     folderPath: 'Output',",
+				"     rowDelimiter: '\\n',",
 				"     columnDelimiter: ',',",
 				"     escapeChar: '\\\\',",
 				"     quoteChar: '\\\"',",
