@@ -52,6 +52,9 @@
 				},
 				{
 					"name": "split1"
+				},
+				{
+					"name": "cast1"
 				}
 			],
 			"scriptLines": [
@@ -72,10 +75,15 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source2",
 				"source1, source2 union(byName: false)~> union1",
-				"union1 split(deptno=='10',",
+				"cast1 split(deptno=='10',",
 				"     deptno=='20',",
 				"     deptno=='30',",
 				"     disjoint: false) ~> split1@(dept10, dept20, deptno30)",
+				"union1 cast(output(",
+				"          deptno as integer,",
+				"          sal as integer",
+				"     ),",
+				"     errors: true) ~> cast1",
 				"split1@dept10 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     partitionFileNames:['Output_union'],",
